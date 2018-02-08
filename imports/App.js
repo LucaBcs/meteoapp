@@ -1,62 +1,35 @@
 import React from "react"
 import axios from "axios"
 import ListDays from "./ListDays"
+import CurrentDay from "./CurrentDay"
+import Gmaps from "./Gmaps"
+
 export default class App extends React.Component {
     
     constructor(){
         
         super()
         
-        this.state = {apiResponse: [] }
+        this.state = {apiResponse: [], apiResponseToday: 0, apiCity:"" }
         
     }
     
-    
-    apiBridge(data){
+    componentWillMount(){
         
-        
-        var city = data.data.city.name
-        
-        var dateArr = data.data.list
-        
-        var forTheState = []
-        
-        dateArr.forEach(function(item, index){
-                        
-            var weekDay = item.dt
-            var tempMin = item.temp.min
-            var tempMax = item.temp.max
-            var icon = item.weather[0].icon  
-            
-            var obj = {
-                        City: city,
-                        Date: weekDay,
-                        Min: tempMin,
-                        Max: tempMax,
-                        Icon: icon,                
-                      }
-            
-            forTheState.push(obj)
-            
-            })
-        
-                
-        
-    }
-    
-    
-    getApi(){
-        
-    
         var that = this
         
-        let url = "http://api.openweathermap.org/data/2.5/forecast/daily?id=6356055&units=metric&cnt=8&APPID=71d4009dcf0a0170e9a484cd0064f300"
+        
+        
+        var latitude = 41.385064
+        var longitude = 2.173403
+        
+        let url = ["http://api.openweathermap.org/data/2.5/forecast/daily?lat=", latitude, "&lon=" , longitude, "&units=metric&cnt=8&APPID=71d4009dcf0a0170e9a484cd0064f300"].join("")
         
         axios.get(url)
         
         .then((response)=>{
-     
-            that.setState({apiResponse: response.data.list})
+        
+        that.setState({apiResponse: response.data.list, apiResponseToday: response.data.list[0], apiCity: response.data.city.name})
             
         })
         
@@ -64,11 +37,32 @@ export default class App extends React.Component {
             
         })
         
-
-
+        
     }
     
-
+  
+    cityChange(latlong){
+        
+        var that = this
+        
+        let latitude = latlong.lat 
+        let longitude = latlong.lng 
+        
+        let url = ["http://api.openweathermap.org/data/2.5/forecast/daily?lat=", latitude, "&lon=" , longitude, "&units=metric&cnt=8&APPID=71d4009dcf0a0170e9a484cd0064f300"].join("")
+        
+        axios.get(url)
+        
+        .then((response)=>{
+        
+        that.setState({apiResponse: response.data.list, apiResponseToday: response.data.list[0], apiCity: response.data.city.name})
+            
+        })
+        
+        .catch((error)=>{
+            
+        })
+        
+    }
     
 
     
@@ -79,10 +73,19 @@ export default class App extends React.Component {
         return (
             
             <div>
-            <ListDays apiResponse = {this.state.apiResponse}></ListDays>
-            <h1> Hello From Gesù </h1>  
-            <button onClick = {this.getApi.bind(this)}> Ola </button>
+                <div className="containerApp">
+                <center></center>
+                <center>
+                   <i className="fas fa-map-marker-alt icon"></i>
+                    <h1> {this.state.apiCity} </h1>
+                    <Gmaps cityChange = {this.cityChange.bind(this)}></Gmaps>
+                    <CurrentDay apiResponseToday = {this.state.apiResponseToday}></CurrentDay>
+                    <ListDays apiResponse = {this.state.apiResponse}></ListDays>
+                </center>
+                <div></div>
+                </div>
             </div>
+            
         )
       }
     }

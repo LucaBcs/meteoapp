@@ -30,17 +30,18 @@ export default class ListDays extends React.Component {
     
     render(){
         
-            var that = this
+        var that = this
         
-            if(this.props.apiResponse.length >0){
+        if(this.props.apiResponse.length >0){
                 
         
         return (
             
-           <div>{this.props.apiResponse.map(function(item, index){
+           <div className="container">
+                   {this.props.apiResponse.map(function(item, index){
                     
                     
-                    if(index != 0){
+                    if(index != 0 && index != that.props.apiResponse.length-1){
                             
                             var weekDay = that.dateConverter(item.dt)
                             

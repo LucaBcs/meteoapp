@@ -10,6 +10,7 @@
     "meteor-node-stubs": "^0.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-places-autocomplete": "^6.1.0",
     "semantic-ui-react": "^0.78.1"
   }
 }

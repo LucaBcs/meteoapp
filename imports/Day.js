@@ -15,19 +15,21 @@ export default class Day extends React.Component {
     
     
     render(){
-        debugger
+        
                 
         
         return (
             
-            <div>
+            <center className="day">
                
                 <div>{this.props.dayState.Date}</div>
-                <div>Max {this.props.dayState.Max}°C</div>
-                <div>Min {this.props.dayState.Min}°C</div>
+
                 <img src={this.props.dayState.Icon}/>
                 
-            </div>
+                <div>Max {this.props.dayState.Max}°C</div>
+                <div>Min {this.props.dayState.Min}°C</div>
+                
+            </center>
       
         
         )
