@@ -1,5 +1,5 @@
 import React from "react"
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import PlacesAutocomplete, { geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
 
 class Gmaps extends React.Component {
   constructor(props) {
@@ -8,10 +8,13 @@ class Gmaps extends React.Component {
     this.onChange = (address) => this.setState({ address })
   }
 
-  handleFormSubmit = (event) => {
-    event.preventDefault()
-
-    geocodeByAddress(this.state.address)
+    
+    
+    
+    handleSelect = (address, placeId) => {
+    this.setState({ address, placeId })
+        
+    geocodeByPlaceId(placeId)
       .then(results => getLatLng(results[0]))
       .then(latLng => this.props.cityChange(latLng))
       .catch(error => console.error('Error', error))
@@ -25,10 +28,9 @@ class Gmaps extends React.Component {
     }
 
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <PlacesAutocomplete inputProps={inputProps} />
-        <button type="submit">Submit</button>
-      </form>
+      <div>
+        <PlacesAutocomplete className="inputCity"   inputProps={inputProps}  onSelect={this.handleSelect} />
+      </div>
     )
   }
 }

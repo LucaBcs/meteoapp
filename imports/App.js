@@ -2,7 +2,7 @@ import React from "react"
 import axios from "axios"
 import ListDays from "./ListDays"
 import CurrentDay from "./CurrentDay"
-import Gmaps from "./Gmaps"
+import Modal from "./Modal"
 
 export default class App extends React.Component {
     
@@ -76,9 +76,8 @@ export default class App extends React.Component {
                 <div className="containerApp">
                 <center></center>
                 <center>
-                   <i className="fas fa-map-marker-alt icon"></i>
                     <h1> {this.state.apiCity} </h1>
-                    <Gmaps cityChange = {this.cityChange.bind(this)}></Gmaps>
+                    <Modal cityChange = {this.cityChange.bind(this)}></Modal>
                     <CurrentDay apiResponseToday = {this.state.apiResponseToday}></CurrentDay>
                     <ListDays apiResponse = {this.state.apiResponse}></ListDays>
                 </center>
